@@ -38,7 +38,7 @@ int main()
 
 	int noRows = 0;
 
-	noRows = (readNoRows);
+	noRows = readNoRows();
 
 	printf("%d", noRows);
 
