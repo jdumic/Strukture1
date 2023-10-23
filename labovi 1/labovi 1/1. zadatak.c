@@ -15,66 +15,79 @@ relatvan_br_bodova = br_bodova/max_br_bodova*100*/
 
 typedef struct _student {
 	char ime[MAX_SIZE];
-	char porezime[MAX_SIZE];
+	char prezime[MAX_SIZE];
 	double bodovi;
 } student;
+
 
 int citajRetke()
 {
 	int brojac = 0;
-	FILE* filepointer = NULL;
+	FILE* f = NULL;
 	char buffer[MAX_LINE] = { 0 };
 
-	filepointer = fopen("Text.txt", "r");
-	if (!filepointer) {
+	f = fopen("Text.txt", "r");
+	if (!f) {
 		printf("file is not open");
 		return FILE_ERROR_OPEN;
 	}
 
-	while (!feof(filepointer))
+	while (!feof(f))
 	{
-		fgets(buffer, MAX_LINE, filepointer);
+		fgets(buffer, sizeof(buffer), f);
 		brojac++;
 	}
-	fclose(filepointer);
+	fclose(f);
 	return brojac;
 }
 
+student* alokacija(int n)
+{
+
+	student* s = NULL;
+	s = (student*)malloc(n * sizeof(student));
+
+	return s;
+
+}
+
+int upis(int n, student* s)
+{
+
+	FILE* f = NULL;
+	f = fopen("Text.txt", "r");
+	if (f == NULL) {
+		printf("greska");
+		return -1;
+	}
+	for (int i = 0; i < n; i++) {
+		fscanf(f, " % s % s % d", s[i].ime, s[i].prezime, &s[i].bodovi);
+	}
+	fclose(f);
+	return 1;
+}
+
+int ispis(int n, student* s)
+{
+
+	printf("\nime:\tprezime:\tRB:\tAB\t\n");
+
+	for (int i = 0; i < n; i++) {
+		printf("%s\t%s\t%d\t%lf\n", (s + i)->ime, (s + i)->prezime, (s + i)->bodovi, (double)(s + i)->bodovi / 50);
+	}
+	return 1;
+}
 
 int main()
 {
 
-	int brojRedaka = 0;
-
-	brojRedaka = citajRetke();
-
-
-	int i = 0;
-	FILE* filepointer = NULL;
-
-	filepointer = fopen("Text.txt", "r");
-	if (!filepointer) {
-		printf("file is not open");
-		return FILE_ERROR_OPEN;
-	}
-
-	student* studenti = (student*)malloc(brojRedaka * sizeof(student));
-
-	if (studenti == NULL) {
-		printf("greska,nije se alocirala memorija");
-		return -1;
-	}
-
-	for (i = 0; i < brojRedaka; i++) {
-		fscanf(filepointer, "%s %s %d", studenti[i].ime, studenti[i].porezime, &studenti[i].bodovi);
-	}
-
-	printf("%d", brojRedaka);
-
-	for (i = 0; i < brojRedaka; i++) {
-		float relativniBodovi = (float)studenti[i].bodovi / 100;
-		printf("%s %s %d %f/n", studenti[i].ime, studenti[i].porezime, studenti[i].bodovi, relativniBodovi);
-	}
+	int n;
+	student* s = NULL;
+	n = citajRetke();
+	printf("broj redaka je %d", n);
+	s = alokacija(n);
+	upis(n, s);
+	ispis(n, s);
 
 	return 0;
 }
