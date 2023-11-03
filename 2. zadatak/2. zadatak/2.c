@@ -8,7 +8,6 @@ U zadatku se ne smiju koristiti globalne varijable.*/
 
 #define CTR_SECURE_NO_WARNINGS_
 #include <stdio.h>
-#include <stdlib.h>
 #define MAXDUZINA 80
 
 
@@ -27,6 +26,7 @@ int upisnapocetak(pozicija, char[MAXDUZINA], char[MAXDUZINA], int);
 int ispis(pozicija);
 int upisnakraj(pozicija, char[MAXDUZINA], char[MAXDUZINA], int);
 int trazi(pozicija, char[MAXDUZINA]);
+int brisi(pozicija);
 
 int main() {
 
@@ -50,6 +50,8 @@ int upisnapocetak(pozicija p, char imef[MAXDUZINA], char prezimef[MAXDUZINA], in
 		printf("greška pri alociranju memorije");
 		return -1;
 	}
+
+	//newPerson=createPerson(); if(newPerson){  newperson->next=head->next; head->next=newPerson;}
 
 	new->next = p->next;
 	p->next = new;
@@ -83,6 +85,7 @@ int upisnakraj(pozicija p, char imef[MAXDUZINA], char prezimef[MAXDUZINA], int x
 	while (p->next != NULL) {
 		p = p->next;
 	}
+	//  newPerson=createPerson(); if(newPerson){ last=findlast(head); newPerson->next=last->next; last->next=newPerosn;}
 
 	new->next = p->next;
 	p->next = new;
@@ -93,6 +96,7 @@ int upisnakraj(pozicija p, char imef[MAXDUZINA], char prezimef[MAXDUZINA], int x
 
 	return 1;
 }
+
 
 
 int trazi(pozicija p, char prez[MAXDUZINA]) {
@@ -112,6 +116,7 @@ int trazi(pozicija p, char prez[MAXDUZINA]) {
 	return 1;
 }
 
+<<<<<<< HEAD
 int trazi(pozicija p, char prez[MAXDUZINA]) {
 
 	int n = 1;
@@ -226,4 +231,19 @@ int sort(pozicija p) {
 	for (int i = 0; (p + i) != NULL; i++) {
 
 	}
+=======
+int brisi(pozicija p)
+{
+	pozicija new;
+	new = (pozicija)malloc(sizeof(osoba));
+	if (new == NULL) {
+		printf("greška pri alociranju memorije");
+		return -1;
+	}
+
+	new->next = p->next;
+	p->next = new;
+	free(new);
+
+>>>>>>> 1295c46e3a78875a78a56fabe5208f4eaa509874
 }
